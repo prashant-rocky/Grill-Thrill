@@ -74,7 +74,7 @@ Design and Developed by: Peaceful Qode
       });
 
 
-      
+
 
 
       /*==================================================
@@ -153,19 +153,19 @@ Design and Developed by: Peaceful Qode
       [ Progressbar ]
       ==================================================*/
 
-      jQuery('.pq-progress-bar > span').each(function() {
-       var app_slider = jQuery('.pq-progressbar-box-1');
-       jQuery(this).progressBar({
-         shadow: false,
-         animation: true,
-         height: app_slider.data('h'),
-         percentage: false,
-         border: false,
-         animateTarget: true,
+      jQuery('.pq-progress-bar > span').each(function () {
+         var app_slider = jQuery('.pq-progressbar-box-1');
+         jQuery(this).progressBar({
+            shadow: false,
+            animation: true,
+            height: app_slider.data('h'),
+            percentage: false,
+            border: false,
+            animateTarget: true,
+         });
       });
-    });
 
-            
+
    });
 
    /*==================================================
@@ -194,10 +194,10 @@ Design and Developed by: Peaceful Qode
    if ($('#beer-slider').length > 0) {
 
 
-   /*==================================================
-   [ before-after ]
-   ==================================================*/
-   new BeerSlider(document.getElementById('slider'));
+      /*==================================================
+      [ before-after ]
+      ==================================================*/
+      new BeerSlider(document.getElementById('slider'));
       $.fn.BeerSlider = function (options) {
          options = options || {};
          return this.each(function () {
@@ -210,58 +210,58 @@ Design and Developed by: Peaceful Qode
    }
 
 
-  if ($('.pq-masonry').length > 0) {
-    // Do something if class exists
+   if ($('.pq-masonry').length > 0) {
+      // Do something if class exists
 
 
-   jQuery('.pq-masonry').isotope({
-      itemSelector: '.pq-masonry-item',
-      masonry: {
-         columnWidth: '.grid-sizer',
-         gutter: 0
+      jQuery('.pq-masonry').isotope({
+         itemSelector: '.pq-masonry-item',
+         masonry: {
+            columnWidth: '.grid-sizer',
+            gutter: 0
 
+         }
+
+      });
+
+      jQuery('.pq-grid').isotope({
+         itemSelector: '.pq-grid-item',
+      });
+
+      jQuery('.pq-filter-button-group').on('click', '.pq-filter-btn', function () {
+
+         var filterValue = jQuery(this).attr('data-filter');
+         jQuery('.pq-masonry').isotope({
+            filter: filterValue
+         });
+         jQuery('.pq-grid').isotope({
+            filter: filterValue
+         });
+         jQuery('.pq-filter-button-group .pq-filter-btn').removeClass('active');
+         jQuery(this).addClass('active');
+
+
+      });
+
+      var initial_items = 6;
+      var next_items = 3;
+
+      if (jQuery('.pq-masonry').length > 0) {
+         var initial_items = jQuery('.pq-masonry').data('initial_items');
+         var next_items = jQuery('.pq-masonry').data('next_items');
       }
 
-   });
+      if (jQuery('.pq-grid').length > 0) {
+         var initial_items = jQuery('.pq-grid').data('initial_items');
+         var next_items = jQuery('.pq-grid').data('next_items');
+      }
 
-   jQuery('.pq-grid').isotope({
-      itemSelector: '.pq-grid-item',
-   });
-
-   jQuery('.pq-filter-button-group').on('click', '.pq-filter-btn', function () {
-
-      var filterValue = jQuery(this).attr('data-filter');
-      jQuery('.pq-masonry').isotope({
-         filter: filterValue
-      });
-      jQuery('.pq-grid').isotope({
-         filter: filterValue
-      });
-      jQuery('.pq-filter-button-group .pq-filter-btn').removeClass('active');
-      jQuery(this).addClass('active');
-
-
-   });
-
-   var initial_items = 6;
-   var next_items = 3;
-
-   if (jQuery('.pq-masonry').length > 0) {
-      var initial_items = jQuery('.pq-masonry').data('initial_items');
-      var next_items = jQuery('.pq-masonry').data('next_items');
    }
-
-   if (jQuery('.pq-grid').length > 0) {
-      var initial_items = jQuery('.pq-grid').data('initial_items');
-      var next_items = jQuery('.pq-grid').data('next_items');
-   }
-
-   } 
 
    /*==================================================
    [ counter ]
    ==================================================*/
-   
+
    jQuery('.timer').countTo();
 
 
@@ -280,3 +280,51 @@ Design and Developed by: Peaceful Qode
    });
 
 })(jQuery);
+// Simple consent helper - for convenience only. Replace with your consent manager if needed.
+(function () {
+   var banner = document.getElementById('cookie-banner');
+   var acceptBtn = document.getElementById('accept-cookies');
+   var manageBtn = document.getElementById('manage-cookies');
+   var consentName = 'grill_thrill_consent';
+
+   function setCookie(name, value, days) {
+      var expires = "";
+      if (days) {
+         var date = new Date();
+         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+         expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+   }
+
+   function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+         var c = ca[i];
+         while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+   }
+
+   // Show banner if no consent yet
+   if (!getCookie(consentName)) {
+      banner.style.display = 'flex';
+   }
+
+   acceptBtn.addEventListener('click', function () {
+      // store a simple "all" consent and hide banner
+      setCookie(consentName, 'all', 365);
+      banner.style.display = 'none';
+      // Example: initialize analytics here if you want
+      // initGoogleAnalytics(); initFacebookPixel();
+   });
+
+   manageBtn.addEventListener('click', function () {
+      // Implement a detailed preference center if desired.
+      // For now, redirect user to the Cookies Policy section to manage settings manually.
+      window.location.hash = '#cookies-policy';
+   });
+
+})();
